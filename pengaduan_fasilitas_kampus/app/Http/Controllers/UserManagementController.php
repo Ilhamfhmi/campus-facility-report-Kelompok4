@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OfficerResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class OfficerResponseController extends Controller
+class UserManagementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +34,7 @@ class OfficerResponseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(OfficerResponse $officerResponse)
+    public function show(string $id)
     {
         //
     }
@@ -43,7 +42,7 @@ class OfficerResponseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(OfficerResponse $officerResponse)
+    public function edit(string $id)
     {
         //
     }
@@ -51,7 +50,7 @@ class OfficerResponseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, OfficerResponse $officerResponse)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -59,7 +58,7 @@ class OfficerResponseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(OfficerResponse $officerResponse)
+    public function destroy(string $id)
     {
         //
     }
