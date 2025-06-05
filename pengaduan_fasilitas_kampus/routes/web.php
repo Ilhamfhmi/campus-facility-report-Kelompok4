@@ -37,6 +37,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
+// Kategori Fasilitas
+Route::resource('facility_categories', FacilityCategoryController::class);
 
 // ====================
 // 🔐 Protected Routes (Hanya untuk user yang sudah login)
