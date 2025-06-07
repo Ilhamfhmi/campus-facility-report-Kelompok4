@@ -58,3 +58,4 @@ class FacilityCategoryController extends Controller
         return redirect()->route('facility_categories.index')->with('success', 'Kategori berhasil dihapus.');
     }
 }
+
