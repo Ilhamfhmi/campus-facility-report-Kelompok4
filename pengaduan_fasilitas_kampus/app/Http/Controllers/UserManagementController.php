@@ -32,7 +32,7 @@ class UserManagementController extends Controller
     {
         $validated = $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
+            'username'    => 'required|unique:users,username',
             'password' => 'required|string|min:6|confirmed',
             'role'     => ['required', Rule::in(['admin', 'petugas', 'mahasiswa'])],
         ]);
@@ -51,6 +51,10 @@ class UserManagementController extends Controller
 
     public function edit(User $user)
     {
+        if ($user->role == "mahasiswa") {
+            abort(403, "Role Mahasiswa Tidak Bisa Diedit");
+        }
+
         $roles = ['admin', 'petugas', 'mahasiswa'];
         return view('user_management.edit', compact('user', 'roles'));
     }
@@ -59,7 +63,7 @@ class UserManagementController extends Controller
     {
         $validated = $request->validate([
             'name'  => 'required|string|max:255',
-            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+            'username' => ['required', Rule::unique('users')->ignore($user->id)],
             'role'  => ['required', Rule::in(['admin', 'petugas', 'mahasiswa'])],
             'password' => 'nullable|string|min:6|confirmed',
         ]);

@@ -31,14 +31,14 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email"
-                               name="email"
-                               id="email"
-                               value="{{ old('email') }}"
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text"
+                               name="username"
+                               id="username"
+                               value="{{ old('username') }}"
                                required autofocus
-                               class="form-control @error('email') is-invalid @enderror">
-                        @error('email')
+                               class="form-control @error('username') is-invalid @enderror">
+                        @error('username')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -69,11 +69,6 @@
                         </button>
                     </div>
                 </form>
-
-                {{-- Tautan ke halaman registrasi --}}
-                <div class="text-center mt-3">
-                    <span>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></span>
-                </div>
             </div>
         </div>
     </div>
