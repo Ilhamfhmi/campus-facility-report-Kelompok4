@@ -17,9 +17,9 @@
         </div>
 
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" value="{{ old('email', $user->email) }}" required>
-            @error('email')
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" id="username" value="{{ old('username', $user->username) }}" required>
+            @error('username')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
@@ -29,7 +29,6 @@
             <select name="role" id="role" class="form-select @error('role') is-invalid @enderror" required>
                 <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
                 <option value="petugas" {{ old('role', $user->role) == 'petugas' ? 'selected' : '' }}>Petugas</option>
-                <option value="mahasiswa" {{ old('role', $user->role) == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
             </select>
             @error('role')
             <div class="invalid-feedback">{{ $message }}</div>

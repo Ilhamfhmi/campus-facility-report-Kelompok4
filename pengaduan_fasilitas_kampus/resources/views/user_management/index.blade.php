@@ -15,7 +15,7 @@
             <tr>
                 <th>No</th>
                 <th>Nama</th>
-                <th>Email</th>
+                <th>Username</th>
                 <th>Role</th>
                 <th>Aksi</th>
             </tr>
@@ -25,13 +25,16 @@
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
+                <td>{{ $user->username }}</td>
                 <td>
                     <span class="badge bg-info text-dark text-capitalize">{{ $user->role }}</span>
                 </td>
                 <td>
                     <a href="{{ route('users.show', $user->id) }}" class="btn btn-sm btn-outline-info me-1" title="Lihat"><i class="bi bi-eye"></i></a>
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-warning me-1" title="Edit"><i class="bi bi-pencil"></i></a>
+
+                    @if ($user->role != "mahasiswa")
+                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-warning me-1" title="Edit"><i class="bi bi-pencil"></i></a>
+                    @endif
                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
                         @csrf
                         @method('DELETE')

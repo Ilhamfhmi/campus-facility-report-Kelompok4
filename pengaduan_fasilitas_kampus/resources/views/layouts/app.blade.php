@@ -43,11 +43,25 @@
     <div class="sidebar p-3">
         <h4><i class="bx bx-building-house me-2"></i>Inventory Pengaduan</h4>
         <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}"><i class="bx bx-home me-2"></i> Dashboard</a>
-        <a href="{{ route('users.index') }}" class="{{ request()->is('users*') ? 'active' : '' }}"><i class="bx bx-user me-2"></i> User Management</a>
-        <a href="{{ route('officer_responses.index') }}" class="{{ request()->is('officer_responses*') ? 'active' : '' }}"><i class="bx bx-message-square-dots me-2"></i> Officer Response</a>
-        <a href="{{ route('facility_categories.index') }}" class="{{ request()->is('facility_categories*') ? 'active' : '' }}"><i class="bx bx-category me-2"></i> Facility Category</a>
+
+        @if (auth()->user()->role == "admin")
+            <a href="{{ route('users.index') }}" class="{{ request()->is('users*') ? 'active' : '' }}"><i class="bx bx-user me-2"></i> User Management</a>
+        @endif
+
+        @if (auth()->user()->role != "mahasiswa")
+            <a href="{{ route('officer_responses.index') }}" class="{{ request()->is('officer_responses*') ? 'active' : '' }}"><i class="bx bx-message-square-dots me-2"></i> Officer Response</a>
+        @endif
+
+        @if (auth()->user()->role == "admin")
+            <a href="{{ route('facility_categories.index') }}" class="{{ request()->is('facility_categories*') ? 'active' : '' }}"><i class="bx bx-category me-2"></i> Facility Category</a>
+        @endif
+
         <a href="{{ route('damage_reports.index') }}" class="{{ request()->is('damage_reports*') ? 'active' : '' }}"><i class="bx bx-error me-2"></i> Damage Report</a>
-        <a href="{{ route('campus_locations.index') }}" class="{{ request()->is('campus_locations*') ? 'active' : '' }}"><i class="bx bx-map me-2"></i> Campus Location</a>
+
+        @if (auth()->user()->role == "admin")
+            <a href="{{ route('campus_locations.index') }}" class="{{ request()->is('campus_locations*') ? 'active' : '' }}"><i class="bx bx-map me-2"></i> Campus Location</a>
+        @endif
+
         <a href="{{ route('logout') }}"
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
            class="mt-3 text-danger">
@@ -74,10 +88,5 @@
 </div>
 @endguest
 
-</body>
-</html>
-
-<body>
-    @yield('content')
 </body>
 </html>

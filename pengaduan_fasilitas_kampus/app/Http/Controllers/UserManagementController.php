@@ -51,6 +51,10 @@ class UserManagementController extends Controller
 
     public function edit(User $user)
     {
+        if ($user->role == "mahasiswa") {
+            abort(403, "Role Mahasiswa Tidak Bisa Diedit");
+        }
+
         $roles = ['admin', 'petugas', 'mahasiswa'];
         return view('user_management.edit', compact('user', 'roles'));
     }

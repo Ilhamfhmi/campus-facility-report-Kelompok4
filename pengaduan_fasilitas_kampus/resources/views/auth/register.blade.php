@@ -26,7 +26,7 @@
 
         <div class="card shadow-sm">
             <div class="card-body p-4">
-                <h3 class="text-center mb-4">Register</h3>
+                <h3 class="text-center mb-4">Register (Non SSO)</h3>
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
 
@@ -40,10 +40,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input id="email" type="email" name="email" value="{{ old('email') }}" required
-                            class="form-control @error('email') is-invalid @enderror">
-                        @error('email')
+                        <label for="username" class="form-label">Username</label>
+                        <input id="username" type="username" name="username" value="{{ old('username') }}" required
+                            class="form-control @error('username') is-invalid @enderror">
+                        @error('username')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
