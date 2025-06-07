@@ -22,27 +22,30 @@
       </div>
     </div>
   </div>
+
   <div class="col-lg-3 col-md-6">
     <div class="card text-white bg-warning shadow-sm">
       <div class="card-body">
-        <h5 class="card-title">{{ $sedangDiproses ?? 0 }}</h5>
+        <h5 class="card-title">{{ $ditinjau ?? 0 }}</h5>
         <p class="card-text mb-0">Pengaduan Ditinjau</p>
       </div>
     </div>
   </div>
+
+  <div class="col-lg-3 col-md-6">
+    <div class="card text-white bg-info shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{{ $diproses ?? 0 }}</h5>
+        <p class="card-text mb-0">Pengaduan Diproses</p>
+      </div>
+    </div>
+  </div>
+
   <div class="col-lg-3 col-md-6">
     <div class="card text-white bg-success shadow-sm">
       <div class="card-body">
         <h5 class="card-title">{{ $selesai ?? 0 }}</h5>
-        <p class="card-text mb-0">Pengaduan Dikerjakan</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-6">
-    <div class="card text-white bg-danger shadow-sm">
-      <div class="card-body">
-        <h5 class="card-title">{{ $tidakDiproses ?? 0 }}</h5>
-        <p class="card-text mb-0">Pengaduan Ditolak</p>
+        <p class="card-text mb-0">Pengaduan Selesai Dikerjakan</p>
       </div>
     </div>
   </div>
@@ -62,7 +65,7 @@
             <thead class="table-light">
               <tr>
                 <th>No</th>
-                <th>Judul</th>
+                <th>Laporan</th>
                 <th>Status</th>
                 <th>Pengirim</th>
               </tr>
@@ -71,7 +74,7 @@
               @forelse ($pengaduans ?? [] as $pengaduan)
                 <tr>
                   <td>{{ $loop->iteration }}</td>
-                  <td>{{ $pengaduan->judul_pengaduan }}</td>
+                  <td>{{ $pengaduan->description }}</td>
                   <td>
                     @php
                       $badgeColor = match($pengaduan->status) {
@@ -101,8 +104,8 @@
   <div class="col-lg-5">
     <div class="card shadow-sm h-100">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0 fw-semibold">Komentar Terbaru</h5>
-        <a href="/admin/komentar" class="btn btn-sm btn-warning">Semua</a>
+        <h5 class="mb-0 fw-semibold">Tanggapan Terbaru</h5>
+        <a href="/officer_responses" class="btn btn-sm btn-warning">Semua</a>
       </div>
       <div class="card-body p-3">
         <div class="table-responsive">
@@ -110,20 +113,20 @@
             <thead class="table-light">
               <tr>
                 <th>No</th>
-                <th>Komentar</th>
+                <th>Tanggapan</th>
                 <th>Oleh</th>
               </tr>
             </thead>
             <tbody>
-              @forelse ($comments ?? [] as $comment)
+              @forelse ($comments as $comment)
                 <tr>
                   <td>{{ $loop->iteration }}</td>
-                  <td>{{ \Illuminate\Support\Str::limit($comment->body, 50) }}</td>
-                  <td>{{ $comment->user->name ?? 'User tidak ditemukan' }}</td>
+                  <td>{{ \Illuminate\Support\Str::limit($comment->response_content, 50) }}</td>
+                  <td>{{ $comment->officer_name ?? 'Petugas Tidak Diketahui' }}</td>
                 </tr>
               @empty
                 <tr>
-                  <td colspan="3" class="text-center text-muted">Belum ada komentar.</td>
+                  <td colspan="3" class="text-center text-muted">Belum ada tanggapan.</td>
                 </tr>
               @endforelse
             </tbody>
@@ -132,6 +135,6 @@
       </div>
     </div>
   </div>
-</div>
+
 
 @endsection

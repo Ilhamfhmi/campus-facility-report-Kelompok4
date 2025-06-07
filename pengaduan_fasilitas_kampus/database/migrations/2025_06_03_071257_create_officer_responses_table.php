@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('officer_responses', function (Blueprint $table) {
             $table->id();
+            // foreign key ke laporan_pengaduan_id atau damage_report_id
+            $table->foreignId('damage_report_id')->constrained('damage_reports')->onDelete('cascade');
+            $table->text('response_content'); // Isi tanggapan
+            $table->string('officer_name'); // Nama petugas yang menanggapi
+            $table->string('status_update')->nullable(); // Opsional: status update laporan kerusakan (misal: 'Sedang Diproses', 'Selesai')
             $table->timestamps();
         });
     }

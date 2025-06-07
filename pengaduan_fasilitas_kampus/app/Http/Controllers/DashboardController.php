@@ -4,28 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DamageReport;
-use App\Models\Comment;
+use App\Models\OfficerResponse;
 
 class DashboardController extends Controller
 {
     public function index()
     {
         $totalPengaduan = DamageReport::count();
-        $sedangDiproses = DamageReport::where('status', 'Sedang Diproses')->count();
+        $ditinjau = DamageReport::where('status', 'Ditinjau')->count();
+        $diproses = DamageReport::whereIn('status', ['Sedang Diproses', 'Diproses'])->count();
         $selesai = DamageReport::where('status', 'Selesai')->count();
-        $tidakDiproses = DamageReport::where('status', 'Tidak Dapat Diproses')->count();
 
         $pengaduans = DamageReport::with('user')->latest()->take(5)->get();
-        $comments = Comment::with('user')->latest()->take(5)->get();
+        $comments = OfficerResponse::latest()->take(5)->get(); // ✅ Ambil komentar petugas
 
         return view('dashboard', compact(
             'totalPengaduan',
-            'sedangDiproses',
+            'ditinjau',
+            'diproses',
             'selesai',
-            'tidakDiproses',
             'pengaduans',
             'comments'
         ));
     }
 }
-

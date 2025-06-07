@@ -8,52 +8,52 @@ use App\Http\Controllers\FacilityCategoryController;
 use App\Http\Controllers\DamageReportController;
 use App\Http\Controllers\OfficerResponseController;
 use App\Http\Controllers\UserManagementController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Ini adalah route web aplikasi Anda. Route dibagi menjadi dua bagian utama:
-| 1. Route publik (login, register, welcome)
-| 2. Route privat (dashboard & resource) yang dilindungi oleh middleware auth
-|
-*/
+use App\Http\Controllers\DashboardController;
 
 // ====================
 // 📂 Public Routes
 // ====================
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', fn () => view('welcome'));
 
-// Login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Register
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
-
 // ====================
-// 🔐 Protected Routes (Hanya untuk user yang sudah login)
+// 🔐 Common for All Logged In Users
 // ====================
-
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
 
-    // Dashboard
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
-    // Resource CRUD
+// ====================
+// 🛡️ Admin Only Routes
+// ====================
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('users', UserManagementController::class);
     Route::resource('campus_locations', CampusLocationController::class);
     Route::resource('facility_categories', FacilityCategoryController::class);
-    Route::resource('damage_reports', DamageReportController::class);
     Route::resource('officer_responses', OfficerResponseController::class);
-    Route::resource('users', UserManagementController::class);
+    Route::resource('damage_reports', DamageReportController::class);
+    Route::get('/laporan', fn () => view('laporan.index'))->name('laporan.index');
+    Route::get('/lokasi', fn () => view('lokasi.index'))->name('lokasi.index');
+});
 
+// ====================
+// 👷 Petugas Only Routes (tapi admin juga boleh akses)
+// ====================
+Route::middleware(['auth', 'role:admin,petugas'])->group(function () {
+    Route::resource('officer_responses', OfficerResponseController::class);
+});
+
+// ====================
+// 🎓 Mahasiswa Only Routes (tapi admin juga boleh akses)
+// ====================
+Route::middleware(['auth', 'role:admin,mahasiswa'])->group(function () {
+    Route::resource('damage_reports', DamageReportController::class);
+    Route::get('hasil_report', [DamageReportController::class, 'progress'])->name('damage_reports.progress');
 });

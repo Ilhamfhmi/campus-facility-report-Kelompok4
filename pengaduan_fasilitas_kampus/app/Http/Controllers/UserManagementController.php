@@ -2,64 +2,83 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserManagementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Middleware bisa ditambahkan supaya hanya admin yang akses
+    public function __construct()
+    {
+        $this->middleware('auth');
+        // $this->middleware('can:manage-users'); // contoh middleware hak akses
+    }
+
     public function index()
     {
-        //
+        $users = User::orderBy('name')->paginate(10);
+        return view('user_management.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $roles = ['admin', 'petugas', 'mahasiswa'];
+        return view('user_management.create', compact('roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+            'role'     => ['required', Rule::in(['admin', 'petugas', 'mahasiswa'])],
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        User::create($validated);
+
+        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return view('user_management.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        $roles = ['admin', 'petugas', 'mahasiswa'];
+        return view('user_management.edit', compact('user', 'roles'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $validated = $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+            'role'  => ['required', Rule::in(['admin', 'petugas', 'mahasiswa'])],
+            'password' => 'nullable|string|min:6|confirmed',
+        ]);
+
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->password);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+
+        return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
     }
 }

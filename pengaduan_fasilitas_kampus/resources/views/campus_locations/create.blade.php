@@ -29,7 +29,7 @@
                                 @csrf
 
                                 <div class="mb-3">
-                                    <label for="building_name" class="form-label">Building Name <span class="text-danger">*</span></label>
+                                    <label for="building_name" class="form-label">Nama Gedung <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('building_name') is-invalid @enderror" id="building_name" name="building_name" value="{{ old('building_name') }}" required>
                                     @error('building_name')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -38,14 +38,14 @@
 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="floor" class="form-label">Floor</label>
+                                        <label for="floor" class="form-label">Lantai</label>
                                         <input type="text" class="form-control @error('floor') is-invalid @enderror" id="floor" name="floor" value="{{ old('floor') }}">
                                         @error('floor')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="room_number" class="form-label">Room Number</label>
+                                        <label for="room_number" class="form-label">Nomor Ruangan</label>
                                         <input type="text" class="form-control @error('room_number') is-invalid @enderror" id="room_number" name="room_number" value="{{ old('room_number') }}">
                                         @error('room_number')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -54,7 +54,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="description" class="form-label">Description</label>
+                                    <label for="description" class="form-label">Deskripsi Lokasi</label>
                                     <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description') }}</textarea>
                                     @error('description')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -62,7 +62,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="location_image" class="form-label">Location Image</label>
+                                    <label for="location_image" class="form-label">Foto Lokasi</label>
                                     <input type="file" class="form-control @error('location_image') is-invalid @enderror" id="location_image" name="location_image">
                                     @error('location_image')
                                         <div class="invalid-feedback">{{ $message }}</div>
