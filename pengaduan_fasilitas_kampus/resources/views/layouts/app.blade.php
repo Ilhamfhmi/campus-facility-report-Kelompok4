@@ -56,7 +56,9 @@
             <a href="{{ route('facility_categories.index') }}" class="{{ request()->is('facility_categories*') ? 'active' : '' }}"><i class="bx bx-category me-2"></i> Facility Category</a>
         @endif
 
-        <a href="{{ route('damage_reports.index') }}" class="{{ request()->is('damage_reports*') ? 'active' : '' }}"><i class="bx bx-error me-2"></i> Damage Report</a>
+        @if (auth()->user()->role != "petugas")
+            <a href="{{ route('damage_reports.index') }}" class="{{ request()->is('damage_reports*') ? 'active' : '' }}"><i class="bx bx-error me-2"></i> Damage Report</a>
+        @endif
 
         @if (auth()->user()->role == "admin")
             <a href="{{ route('campus_locations.index') }}" class="{{ request()->is('campus_locations*') ? 'active' : '' }}"><i class="bx bx-map me-2"></i> Campus Location</a>
